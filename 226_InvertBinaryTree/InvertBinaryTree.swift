@@ -25,6 +25,18 @@ public class TreeNode {
 
 class Solution {
     func invertTree(root: TreeNode?) -> TreeNode? {
-        
+        guard let rootNode = root else {
+            return nil
+        }
+
+        if rootNode.left == nil && rootNode.right == nil {
+            return rootNode
+        }
+
+        let tempLeftNode = rootNode.left
+        rootNode.left = self.invertTree(rootNode.right)
+        rootNode.right = self.invertTree(tempLeftNode)
+
+        return rootNode
     }
 }
