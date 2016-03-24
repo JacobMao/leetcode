@@ -57,6 +57,29 @@ public:
 
         return ret;
     }
+
+    TreeNode* lowestCommonAncestorSimpleVersion(TreeNode* root, TreeNode* p, TreeNode* q) {
+        if (root == NULL
+        || p == NULL
+        || q == NULL) {
+            return NULL;
+        }
+
+        TreeNode *ret = NULL;
+        if (p->val > q->val) {
+            ret = this->lowestCommonAncestorSimpleVersion(root, q, p);
+        } else {
+            if (root->val >= p->val && root->val <= q->val) {
+                ret = root;
+            } else if (root->val > q->val) {
+                ret = this->lowestCommonAncestorSimpleVersion(root->left, p, q);
+            } else if (root->val < p->val ) {
+                ret = this->lowestCommonAncestorSimpleVersion(root->right, p, q);
+            }
+        }
+
+        return ret;
+    }
 private:
     void eulerTourTree(TreeNode* root, TreeNode* p, TreeNode* q, int level,
         std::vector<EulerNode> &result, int &pIndex, int &qIndex) {
@@ -93,9 +116,9 @@ int main() {
     a.left = &b;
 
     Solution s = Solution();
-    auto ret = s.lowestCommonAncestor(&a, &a, &b);
+    auto ret = s.lowestCommonAncestorSimpleVersion(&a, &a, &b);
 
-    std::cout << ret << std::endl;
+    std::cout << ret->val << std::endl;
 
     return 0;
 }
